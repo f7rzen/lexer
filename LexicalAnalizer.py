@@ -75,9 +75,9 @@ class LexicalAnalyzer:
         self.keywords = {"or": 1, "and": 2, "not": 3, "{": 4, "}": 5, "as": 6, "if": 7,
                          "then": 8, "else": 9, "for": 10, "to": 11, "do": 12, "while": 13, "read": 14, "write": 15,
                          "true": 16, "false": 17}
-        self.types = {"integer", "boolean", "real"}  # +
+        self.types = {"integer", "boolean", "real"} 
         self.arith = {"+", '-', '*', '/'}  # +
-        self.operators = {"<>", "=", "<", "<=", ">", ">="}  # +
+        self.operators = {"<>", "=", "<", "<=", ">", ">="} 
         self.delimiters = {";", ",", ":", "[", "]", "(", ")"}
         self.fgetc = fgetc_generator(filename)
         self.current = Current(state=self.states.H)
@@ -104,9 +104,9 @@ class LexicalAnalyzer:
     def h_state_processing(self):
         while not self.current.eof_state and self.current.symbol in {" ", "\n", "\t"}:
             self.current.re_assign(*next(self.fgetc))
-        if self.current.symbol.isalpha():  # переход в состояние идентификаторов
+        if self.current.symbol.isalpha():
             self.current.state = self.states.ID
-        elif self.current.symbol in set(list("0123456789.")):  # переход в состояние чисел
+        elif self.current.symbol in set(list("0123456789.")):
             self.current.state = self.states.NM
         elif self.current.symbol in (self.delimiters | self.operators | self.types | self.arith):
             self.current.state = self.states.DLM
@@ -164,23 +164,23 @@ class LexicalAnalyzer:
         raise Exception(
             f"\nUnknown: '{self.error.symbol}' in file {self.error.filename} \nline: {self.current.line_number} and pos: {self.current.pos_number}")
 
-    def id_state_processing(self):  # Completed
+    def id_state_processing(self):
         buf = [self.current.symbol]
         if not self.current.eof_state:
             self.current.re_assign(*next(self.fgetc))
         while not self.current.eof_state and (
-                self.current.symbol.isalpha() or self.current.symbol.isdigit()):  # ([a-zA-Z]|[0-9])+
+                self.current.symbol.isalpha() or self.current.symbol.isdigit()):
             buf.append(self.current.symbol)
             self.current.re_assign(*next(self.fgetc))
         buf = ''.join(buf)
         if buf in self.keywords:
             self.add_token(self.token_names.KWORD, buf)
-        elif buf in self.types:  # Check if it's a type identifier
+        elif buf in self.types:
             self.add_token(self.token_names.TYPE, buf)
         else:
             self.add_token(self.token_names.KWORD, buf)
             if buf not in self.keywords:
-                self.identifiersTable.add(buf) #put
+                self.identifiersTable.add(buf)
         self.current.state = self.states.H
 
     def nm_state_processing(self):
