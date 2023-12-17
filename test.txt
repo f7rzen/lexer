@@ -1,0 +1,37 @@
+{
+int: integer;
+as
+<>
+=
+<
+<=
+>
+>=
++
+-
+or
+*
+/
+and
+not
+101010B
+234O
+12
+0.123
+8D7Fh
+#{#
+integer
+real
+boolean
+[]
+()
+if
+for
+while
+do while
+read
+write
+do
+then
+else
+}@
