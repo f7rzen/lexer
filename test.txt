@@ -2,6 +2,7 @@
 int1: integer;
 bool1: boolean;
 float1: real;
+x
 as
 <>
 =
