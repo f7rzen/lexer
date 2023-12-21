@@ -178,7 +178,7 @@ class LexicalAnalyzer:
         elif buf in self.types:
             self.add_token(self.token_names.TYPE, buf)
         else:
-            self.add_token(self.token_names.KWORD, buf)
+            self.add_token(self.token_names.IDENT, buf)
             if buf not in self.keywords:
                 self.identifiersTable.add(buf)
         self.current.state = self.states.H
